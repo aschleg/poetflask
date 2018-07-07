@@ -2,28 +2,39 @@
 
 {% block content %}
 
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-4 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-left px-3 mt-4 mb-1 text-muted">
-                        <span>Search Options</span>
-                    </h6>
-                    <form>
-                        <div class="form-group">
-                            <label for="authorSelect">Select Author</label>
-                            <select class="custom-select mr-sm-2" id="authorSelect">
+    <div class="row">
+        <nav class="col-md-3 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            "Poetry Search"<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-left px-3 mt-4 mb-1 text-muted">
+                    <span>Search Options</span>
+                </h6>
+                <form method="GET">
+                    <div class="form-group">
+                        <label for="authorSelect">Select Author</label>
+                        <select class="form-control form-control-sm" id="authorSelect">
+                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="poetrySelect">Select Poem</label>
+                        <select class="form-control form-control-sm" id="poetrySelect">
 
-                            </select>
-                        </div>
+                        </select>
+                    </div>
 
-                    </form>
-                </div>
-            </nav>
-            <main role="main" class="col-md-7 ml-sm-auto col-lg-8 px-4">
+                </form>
+            </div>
+        </nav>
+        <main role="main" class="col-md-8 ml-sm-auto col-lg-9 px-4">
 
-            </main>
-        </div>
+        </main>
     </div>
 
 {% endblock %}
