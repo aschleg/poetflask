@@ -2,7 +2,7 @@ from app import db
 
 
 class Author(db.Model):
-    __tablename__ = 'author'
+    __tablename__ = 'authors'
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.VARCHAR(255), index=True, unique=True)
 

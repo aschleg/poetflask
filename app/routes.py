@@ -1,24 +1,25 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, request
 
 from app import app
 from app.forms import PoetryForms
 from app.models import Author, Poems, db
+from sqlalchemy.orm import load_only
 
 
 db.create_all()
 
 
-@app.route('/')
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/', methods=['get', 'post'])
+@app.route('/index', methods=['get', 'post'])
 def index():
-    poet_form = PoetryForms()
-    if poet_form.validate_on_submit():
-        flash('Author {}, Poem {}'.format(poet_form.author_search, poet_form.poem_search))
-    return render_template('index.html', title='Poetflask', form=poet_form)
+    form = PoetryForms()
 
+    #if request.method == 'POST':
+    author = request.form.get('selectauthor')
 
-#@app.route('/author_search', methods=['GET'])
-#def author_search():
-#    form = PoetryForms()
-#    if form.validate_on_submit():
-#        pass
+    author_poems = Poems.query.filter_by(author=author).all()
+
+    #if poet_form.validate_on_submit():
+    #    author = Author.query.filter_by(author=poet_form.author_select.data).first()
+
+    return render_template('index.html', title='Poetflask', form=form, author_poems=author_poems)
