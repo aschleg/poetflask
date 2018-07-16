@@ -31,11 +31,13 @@ def authors_list():
 
 @app.route('/authors/<author>/', methods=['GET', 'POST'])
 def author_poetry(author):
-    form = PoetryForms()
+    #form = PoetryForms()
 
-    if request.method == 'POST':
-        author = form.author_select.data.author
+    #if request.method == 'POST':
+    #    author = form.author_select.data.author
 
+
+    author_name = 'William Shakespeare'
     author_poems = Poems.query.filter_by(author=author).all()
 
-    return render_template('author.html', author_poems=author_poems, author_name=author)#, author=author)
+    return render_template('author.html', author_poems=author_poems)
