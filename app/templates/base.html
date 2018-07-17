@@ -11,9 +11,12 @@
         <title>{{ title }}</title>
     </head>
     <body>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Poetflask</a>
-            <div class="collapse navbar-collapse">
+            <button class="navbar-toggler" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsDefault">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -24,11 +27,6 @@
                 </ul>
             </div>
         </nav>
-        <div class="container-fluid">
-            <div class="row">
-                {% block content %}{% endblock %}
-                {% block authorpoems %}{% endblock %}
-            </div>
-        </div>
+        {% block content %}{% endblock %}
     </body>
 </html>
