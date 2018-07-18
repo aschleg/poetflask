@@ -1,5 +1,7 @@
 $ cat .gitignore
 
+*.DS_Store
+.idea/
 __pycache__/
 venv/
-.idea/
+app/static/img/

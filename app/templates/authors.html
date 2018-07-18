@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block page_content %}
+
+    <main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Poetflask</h1>
+            <p class="lead text-muted">Description</p>
+        </div>
+    </section>
+    <div class="container">
+        <div class="row">
+            {% for author in author_list %}
+                <div class="col-md-3">
+                    <h4>{{ author.author }}</h4>
+                    <p>text</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </main>
+
+{% endblock %}
