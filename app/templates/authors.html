@@ -3,22 +3,22 @@
 {% block page_content %}
 
     <main role="main">
-    <section class="jumbotron text-center">
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Poetflask</h1>
+                <p class="lead text-muted">Description</p>
+            </div>
+        </section>
         <div class="container">
-            <h1 class="jumbotron-heading">Poetflask</h1>
-            <p class="lead text-muted">Description</p>
+            <div class="row">
+                {% for author in author_poem_count %}
+                    <div class="col-md-6">
+                        <h3>{{ author.author }}</h3>
+                        <p>Number of Poems: {{ author.poem_count }}</p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </section>
-    <div class="container">
-        <div class="row">
-            {% for author in author_list %}
-                <div class="col-md-3">
-                    <h4>{{ author.author }}</h4>
-                    <p>text</p>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
     </main>
 
 {% endblock %}
