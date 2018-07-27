@@ -3,15 +3,20 @@
 {% block page_content %}
 
     <main role="main">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-cent pt-3 pb-2 mb-3 border-bottom">
-            <h1>Poetry</h1>
-            <p>{{ author_name }}</p>
-        </div>
-        <div class="row">
-            {% for author_poem in author_poems %}
-                <h5>{{ author_poem.title }}</h5>
-                <p>{{ author_poem.lines }}</p>
-            {% endfor %}
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">{{ author_name }}</h1>
+                <p class="lead text-muted">{{ author_info.description }}</p>
+                <p class="lead text-muted">{{ author_info.date_of_birth }}</p>
+            </div>
+        </section>
+        <div class="container">
+            <div class="row">
+                {% for author_poem in author_poems %}
+                    <h5>{{ author_poem.title }}</h5>
+                    <p>{{ author_poem.lines }}</p>
+                {% endfor %}
+            </div>
         </div>
     </main>
 

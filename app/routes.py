@@ -34,14 +34,16 @@ def authors_list():
         order_by(Poems.author.asc())\
         .all()
 
-    return render_template('authors.html', author_list=author_list, author_poem_count=author_poem_count)
+    return render_template('authors.html', author_list=author_list)
 
 
 @app.route('/authors/<author>/', methods=['GET', 'POST'])
-def author_poetry(author):
+def author_page(author):
     author_poems = Poems.query.filter_by(author=author).all()
+    author_info = Author.query.filter_by(author=author).first()
 
-    return render_template('author.html', author_poems=author_poems)
+    return render_template('author.html', author_poems=author_poems, author_info=author_info,
+                           author_name=author)
 
 
 @app.route('/about', methods=['GET', 'POST'])
