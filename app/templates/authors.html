@@ -11,12 +11,16 @@
         </section>
         <div class="container">
             <div class="row">
-                {% for author in author_poem_count %}
+                {% for author in author_list %}
                     <div class="col-md-6">
+                        <img src="{{ author.image_location }}" style="max-height: 300px; max-width: 300px">
                         <h3>{{ author.author }}</h3>
-                        <p>Number of Poems: {{ author.poem_count }}</p>
+                        <p>Date of Birth: {{ author.date_of_birth }}</p>
+                        <p>Date of Death: {{ author.date_of_death }}</p>
+                        <p>{{ author.description }}</p>
                     </div>
                 {% endfor %}
+                <ul>
             </div>
         </div>
     </main>
