@@ -2,8 +2,9 @@ from flask import render_template, flash, redirect, request
 from sqlalchemy import func
 
 from app import app
-from app.models import Author, Poems, db
+from app.models import Poet, Poems, db
 
+from random import randint
 
 db.create_all()
 
@@ -12,12 +13,18 @@ db.create_all()
 @app.route('/index', methods=['GET', 'POST'])
 def index():
 
-    return render_template('index.html', title='Poetflask')
+    poem_count = Poems.query.count()
+
+    random_id = randint(1, poem_count)
+
+    random_poem = Poems.query.filter_by(id=random_id).first()
+
+    return render_template('index.html', title='Welcome to Poetflask!', random_poem=random_poem)
 
 
-@app.route('/authors/', methods=['GET', 'POST'])
-def authors_list():
-    author_list = Author.query.all()
+@app.route('/poets/', methods=['GET', 'POST'])
+def poets_list():
+    poet_list = Poet.query.order_by(Poet.last_name.asc()).all()
 
     # author_poem_count = Poems.query.\
     #     with_entities(Poems.author, func.count(Poems.title).label('poem_count')).\
@@ -25,16 +32,16 @@ def authors_list():
     #     order_by(Poems.author.asc())\
     #     .all()
     title = 'Poets'
-    return render_template('authors.html', author_list=author_list, title=title)
+    return render_template('poets.html', poet_list=poet_list, title=title)
 
 
-@app.route('/authors/<author>/', methods=['GET', 'POST'])
-def author_page(author):
-    author_poems = Poems.query.filter_by(author=author).all()
-    author_info = Author.query.filter_by(author=author).first()
+@app.route('/poets/<poet>/', methods=['GET', 'POST'])
+def poet_page(poet):
+    author_poems = Poems.query.filter_by(author=poet).all()
+    poet_info = Poet.query.filter_by(name=poet).first()
 
-    return render_template('author.html', author_poems=author_poems, author_info=author_info,
-                           author_name=author)
+    return render_template('poet.html', author_poems=author_poems, poet_info=poet_info,
+                           author_name=poet)
 
 
 @app.route('/about', methods=['GET', 'POST'])

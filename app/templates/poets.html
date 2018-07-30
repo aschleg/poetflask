@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+    <main role="main">
+        <section class="jumbotron">
+            <div class="container">
+                <h1 class="display-2">{{ title }}</h1>
+                <p class="lead text-muted"></p>
+            </div>
+        </section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    {% for poet in poet_list %}
+                    <div class="col-md-12">
+                        <div class="card flex-md-row mb-4" style="border: 0px;">
+                            <a href="{{ url_for("poet_page", poet=poet.name) }}">
+                                <img class="card-img-left" src="{{ poet.image_location }}"
+                                 style="max-height:350px; max-width: 350px; min-height: 300px; min-width: 300px;">
+                            </a>
+                            <div class="card-body d-flex flex-column" style="padding-top: 0px;">
+                                <a href="{{ url_for("poet_page", poet=poet.name) }}"
+                                   style="color: inherit;">
+                                    <h1 class="card-title">{{ poet.name }}</h1>
+                                </a>
+                                <p class="card-text">{{ poet.description }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                {% endfor %}
+                </div>
+                <aside class="col-md-3 sidebar">
+                    <div class="p-3">
+                        <h3>Poets</h3>
+                        <ol class="list-unstyled mb-0">
+                            {% for poet in poet_list %}
+                                <li>
+                                    <a href="{{ url_for("poet_page", poet=poet.name) }}">
+                                        {{ poet.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,11 +1,10 @@
 from app import db
 
 
-class Author(db.Model):
+class Poet(db.Model):
     __table_args__ = {"schema": "poetry"}
-    __tablename__ = 'authors'
+    __tablename__ = 'poets'
     id = db.Column(db.INT, primary_key=True)
-    author = db.Column(db.VARCHAR(255), index=True, unique=True)
     date_of_birth = db.Column(db.VARCHAR(255))
     date_of_death = db.Column(db.VARCHAR(255))
     description = db.Column(db.TEXT)
@@ -21,6 +20,9 @@ class Author(db.Model):
     month_of_death = db.Column(db.INT)
     day_of_birth = db.Column(db.INT)
     day_of_death = db.Column(db.INT)
+    first_name = db.Column(db.VARCHAR(255))
+    last_name = db.Column(db.VARCHAR(255))
+    name = db.Column(db.VARCHAR(255))
     image_location = db.Column(db.VARCHAR(255))
 
 

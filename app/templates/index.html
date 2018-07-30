@@ -28,10 +28,15 @@
     </nav>#}
 
     <main role="main">
-        <section class="jumbotron text-center" style="margin-bottom: 0">
+        <section class="jumbotron" style="margin-bottom: 0">
             <div class="container">
-                <h1 class="jumbotron-heading">Poetflask</h1>
-                <p class="lead text-muted">Description</p>
+                <h1 class="display-2">{{ title }}</h1>
+                <p class="lead text-muted">Poetflask is a simple <a href="http://flask.pocoo.org/">Flask app</a>
+                that displays information and poetry extracted from various online sources and APIs. The poetry
+                content was extracted from <a href="http://poetrydb.org/index.html">PoetryDB</a>, and the poet
+                descriptions and other information is taken from Wikipedia through the
+                    <a href="https://www.mediawiki.org/wiki/API:Main_page">MediaWiki API</a>. The extracted data
+                is stored in a Postgresql database.</p>
             </div>
         </section>
         <div class="album py-5 bg-light">
@@ -39,14 +44,16 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <a href="authors"><img class="card-img-top" src="../static/img/poet.png"
+                            <a href="poets"><img class="card-img-top" src="../static/img/poet.png"
                                  style="width: 100%; list-style-image: inherit; display: block;"></a>
                             <div class="card-body">
                                 <h3 class="card-title">Poets</h3>
-                                <p class="card-text">Card text</p>
+                                <p class="card-text">Learn more and discover the poetry of over 120 English-language
+                                poets!</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a class="btn btn-link" href="authors" role="button">See Poets</a>
+                                        <a class="btn btn-outline-primary"
+                                           href="poets" role="button">Explore Poets</a>
                                     </div>
                                 </div>
                             </div>
@@ -54,14 +61,15 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="../static/img/pen2.png"
-                                 style="width: 100%; max-height: 400px; display: block;">
+                            <a href="poetry"><img class="card-img-top" src="../static/img/pen2.png"
+                                 style="width: 100%; max-height: 400px; display: block;"></a>
                             <div class="card-body">
                                 <h3 class="card-title">Poetry</h3>
-                                <p class="card-text">Card text</p>
+                                <p class="card-text">Search over 3,200 English-language poems by various criteria.</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a class="btn btn-link" href="authors" role="button">See Poetry</a>
+                                        <a class="btn btn-outline-primary"
+                                           href="poetry" role="button">Search Poetry</a>
                                     </div>
                                 </div>
                             </div>
@@ -73,10 +81,12 @@
                                  style="width: 100%; max-height: 400px; display: block;"></a>
                             <div class="card-body">
                                 <h3 class="card-title">About</h3>
-                                <p class="card-text">Card text</p>
+                                <p class="card-text">Find out more about Poetflask and the data sources utilized
+                                by the app!</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a class="btn btn-link" href="about" role="button">Learn More</a>
+                                        <a class="btn btn-outline-primary"
+                                           href="about" role="button">Check it out</a>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +97,23 @@
         </div>
         <div class="container">
             <div class="row">
-                <h1 class="display-4 text-center">Poem of the Day</h1>
+                <div class="col-md-12">
+                    <div class="my-3 py-3">
+                        <h1 class="display-3">Random Poem</h1>
+                        <p class="lead">See a new poem each time you refresh the page!</p>
+                    </div>
+                    <div class="my-3 py-3">
+                        <h1 class="display-5">{{ random_poem.title }}</h1>
+                    </div>
+                    <blockquote class="blockquote">
+                        <p class="poetry mb-0" style="white-space: pre-line">{{ random_poem.lines }}</p>
+                        <footer class="blockquote-footer">
+                            <cite title="Source Title">
+                                <a href="{{ url_for("poet_page", poet=random_poem.author) }}">{{ random_poem.author }}</a>
+                            </cite>
+                        </footer>
+                    </blockquote>
+                </div>
             </div>
         </div>
     </main>
