@@ -3,12 +3,30 @@
 {% block page_content %}
 
     <main role="main">
-        <section class="jumbotron text-center">
+        <section class="jumbotron">
             <div class="container">
-                <h1 class="jumbotron-heading">About Poetflask</h1>
-                <p class="lead text-muted">Description</p>
+                <h1 class="display-2">About</h1>
             </div>
         </section>
     </main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-4">About Poetflask</h1>
+                <p>Poetflask is built with <a href="http://flask.pocoo.org/">Flask</a> with a small
+                    <a href="https://www.postgresql.org/">Postgresql</a> database that stores the poetry and
+                    author data. More information and the source code can be found at the
+                    <a href="https://github.com/aschleg/poetflask">Github repo</a>.</p>
+                <h1 class="display-4">About PoetryDB</h1>
+                <p><a href="http://poetrydb.org/index.html">PoetryDB</a> was created and is currently maintained by
+                    <a href="https://twitter.com/thundercomb">@thundercomb</a>. They blog about poetry and related
+                    technology and other topics at
+                    <a href="http://thecombedthunderclap.blogspot.com/">thecombedthunderclap.blogspot.com</a>.</p>
+                <p>Please note, I am in no way affiliated with the creator of PoetryDB. My intention with Poetflask
+                    is to help spread the word and hopefully increase interest in poetry and related projects that
+                    attempt to create comprehensive databases of publicly available knowledge.</p>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

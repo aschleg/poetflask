@@ -1,11 +1,17 @@
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Chewy', cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500 !important;
+}
+
+p {
+    font-family: 'Didact Gothic', 'sans-serif';
+    font-size: 1.2rem;
 }
 
 p.poetry {
-    font-size: 2em;
-    font-family: 'Patrick+Hand', cursive;
+    font-family: 'Annie Use Your Telescope', cursive;
+    font-size: 1.8rem;
 }
 
 a:hover {

@@ -26,11 +26,6 @@ def index():
 def poets_list():
     poet_list = Poet.query.order_by(Poet.last_name.asc()).all()
 
-    # author_poem_count = Poems.query.\
-    #     with_entities(Poems.author, func.count(Poems.title).label('poem_count')).\
-    #     group_by(Poems.author).\
-    #     order_by(Poems.author.asc())\
-    #     .all()
     title = 'Poets'
     return render_template('poets.html', poet_list=poet_list, title=title)
 
@@ -44,7 +39,17 @@ def poet_page(poet):
                            author_name=poet)
 
 
-@app.route('/about', methods=['GET', 'POST'])
+@app.route('/about')
 def about():
-
     return render_template('about.html')
+
+
+@app.route('/poetry', methods=['GET'])
+def poetry_page():
+    return render_template('poetry.html')
+
+# author_poem_count = Poems.query.\
+    #     with_entities(Poems.author, func.count(Poems.title).label('poem_count')).\
+    #     group_by(Poems.author).\
+    #     order_by(Poems.author.asc())\
+    #     .all()
