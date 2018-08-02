@@ -25,3 +25,11 @@ blockquote.blockquote {
 footer.blockquote-footer {
     font-size: 175%;
 }
+
+a.nav-link {
+    font-family: 'Montserrat', sans-serif;
+}
+
+a.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+}
