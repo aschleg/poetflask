@@ -2,31 +2,6 @@
 
 {% block page_content %}
 
-{#    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        Poetry Search<span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            </ul>
-
-            <h5 class="sidebar-heading d-flex align-items-left px-3 mt-4 mb-1 text-muted">
-                <span>Search Options</span>
-            </h5>
-
-            <form action="{{ url_for('authors_list') }}" method="POST" novalidate>
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                    <label>{{ form.author_select.label }}</label>
-                    {{ form.author_select(class_="form-control form-control-sm") }}
-                    {{ form.submit() }}
-                </div>
-            </form>
-        </div>
-    </nav>#}
-
     <main role="main">
         <section class="jumbotron" style="margin-bottom: 0">
             <div class="container">

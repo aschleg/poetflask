@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired
 from app.models import Poet, Poems
 
 
-def author_list():
+def poet_list():
     return Poet.query
 
 
@@ -15,8 +15,10 @@ def poems_list():
 
 
 class PoetryForms(FlaskForm):
-    author_select = QuerySelectField(u'Select Poet',
-                                     query_factory=author_list, allow_blank=False, get_label='author')
+    poet_select = QuerySelectField(u'Select Poet',
+                                   query_factory=poet_list, allow_blank=False, get_label='name')
+
     poem_select = QuerySelectField(u'Select Poems',
                                    query_factory=poems_list, allow_blank=False, get_label='title')
+
     submit = SubmitField('Submit')

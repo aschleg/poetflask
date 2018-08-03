@@ -2,12 +2,29 @@
 
 {% block page_content %}
 
-    <main role="main">
-        <section class="jumbotron">
-            <div class="container">
-                <h1 class="display-2">Poetry</h1>
-            </div>
-        </section>
-    </main>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <h5 class="sidebar-heading d-flex align-items-left px-3 mt-4 mb-1 text-muted">
+                        <span>Search Options</span>
+                    </h5>
+                    <form action="{{ url_for('poetry_page') }}" method="POST" novalidate>
+                        <div class="form-group">
+                            <label>{{ form.poet_select.label }}</label>
+                            {{ form.poet_select(class_="form-control form-control-sm") }}
+                            {{ form.submit() }}
+                        </div>
+                    </form>
+                </div>
+            </nav>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="display-5">{{ poet }}Results</h1>
+                </div>
+            </main>
+        </div>
+    </div>
+
 
 {% endblock %}

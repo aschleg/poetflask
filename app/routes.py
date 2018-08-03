@@ -3,6 +3,7 @@ from sqlalchemy import func
 
 from app import app
 from app.models import Poet, Poems, db
+from app.forms import PoetryForms
 
 from random import randint
 
@@ -44,9 +45,16 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/poetry', methods=['GET'])
+@app.route('/poetry', methods=['GET', 'POST'])
 def poetry_page():
-    return render_template('poetry.html')
+    form = PoetryForms()
+
+    if form.validate_on_submit():
+        poet = form.poet_select.data
+
+        return render_template('poetry.html', poet=poet, form=form)
+
+    return render_template('poetry.html', form=form)
 
 # author_poem_count = Poems.query.\
     #     with_entities(Poems.author, func.count(Poems.title).label('poem_count')).\
