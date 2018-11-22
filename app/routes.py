@@ -1,9 +1,7 @@
-from flask import render_template, flash, redirect, request
-from sqlalchemy import func
+from flask import jsonify, render_template, request
 
 from app import app
 from app.models import Poet, Poems, db
-from app.forms import PoetryForms
 
 from random import randint
 
@@ -17,6 +15,8 @@ def index():
     poem_count = Poems.query.count()
 
     random_id = randint(1, poem_count)
+
+    #poet_of_the_day
 
     random_poem = Poems.query.filter_by(id=random_id).first()
 
@@ -40,24 +40,25 @@ def poet_page(poet):
                            author_name=poet)
 
 
-@app.route('/about')
+@app.route('/poetry/', methods=['GET', 'POST'])
+def poetry_page():
+    poet_list = Poet.query.order_by(Poet.last_name.asc()).all()
+
+    return render_template('poetry.html', poet_list=poet_list)
+
+
+@app.route('/selected_poetry', methods=['POST'])
+def selected_poetry():
+    poet = request.json['poet']
+
+    return jsonify({'poet': poet})
+
+
+@app.route('/about/')
 def about():
     return render_template('about.html')
 
 
-@app.route('/poetry', methods=['GET', 'POST'])
-def poetry_page():
-    form = PoetryForms()
-
-    if form.validate_on_submit():
-        poet = form.poet_select.data
-
-        return render_template('poetry.html', poet=poet, form=form)
-
-    return render_template('poetry.html', form=form)
-
-# author_poem_count = Poems.query.\
-    #     with_entities(Poems.author, func.count(Poems.title).label('poem_count')).\
-    #     group_by(Poems.author).\
-    #     order_by(Poems.author.asc())\
-    #     .all()
+@app.template_filter()
+def poem_sample(poem):
+    return '\n'.join(str(poem).splitlines()[0:2])

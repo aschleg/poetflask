@@ -16,7 +16,7 @@ def poems_list():
 
 class PoetryForms(FlaskForm):
     poet_select = QuerySelectField(u'Select Poet',
-                                   query_factory=poet_list, allow_blank=False, get_label='name')
+                                   query_factory=lambda: Poet.query.all(), allow_blank=False, get_label='name')
 
     poem_select = QuerySelectField(u'Select Poems',
                                    query_factory=poems_list, allow_blank=False, get_label='title')

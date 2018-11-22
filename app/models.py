@@ -4,6 +4,7 @@ from app import db
 class Poet(db.Model):
     __table_args__ = {"schema": "poetry"}
     __tablename__ = 'poets'
+
     id = db.Column(db.INT, primary_key=True)
     date_of_birth = db.Column(db.VARCHAR(255))
     date_of_death = db.Column(db.VARCHAR(255))
@@ -29,6 +30,7 @@ class Poet(db.Model):
 class Poems(db.Model):
     __table_args__ = {"schema": "poetry"}
     __tablename__ = 'poems'
+
     id = db.Column(db.INT, primary_key=True)
     author = db.Column(db.VARCHAR(255))
     linecount = db.Column(db.INT)

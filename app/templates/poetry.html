@@ -9,22 +9,60 @@
                     <h5 class="sidebar-heading d-flex align-items-left px-3 mt-4 mb-1 text-muted">
                         <span>Search Options</span>
                     </h5>
-                    <form action="{{ url_for('poetry_page') }}" method="POST" novalidate>
+                    <form action="{{ url_for('poetry_page') }}" id="enterPoetryData" method=post>
                         <div class="form-group">
-                            <label>{{ form.poet_select.label }}</label>
-                            {{ form.poet_select(class_="form-control form-control-sm") }}
-                            {{ form.submit() }}
+                            <label for="select_poet">Poet</label>
+                            <select class="form-control" id="select_poet" name="select_poet">
+                                {% for poet in poet_list %}
+                                    <option>{{ poet.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary" id="selectPoet">
+                                Select Poet
+                            </button>
                         </div>
                     </form>
                 </div>
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="display-5">{{ poet }}Results</h1>
+                    {% if poet == None %}
+                        <h1 class="display-5">Results</h1>
+                    {% else %}
+                        <h1 class="display-5">{{ poet }} Results</h1>
+                    {% endif %}
                 </div>
             </main>
         </div>
     </div>
 
+{% endblock %}
+
+{% block page_scripts %}
+
+    <script type="text/javascript">
+
+        function selected_data(e) {
+            let data = {
+                poet: $('#select_poet').val()
+            };
+
+            $.ajax({
+                contentType: 'application/json',
+                dataType: 'json',
+                type: 'POST',
+                data: JSON.stringify(data),
+                url: '{{ url_for('selected_poetry') }}'
+            })
+            .done(function(data) {
+
+            });
+
+            e.preventDefault();
+        }
+
+        $('#enterPoetryData').on('submit', selected_data)
+
+    </script>
 
 {% endblock %}
