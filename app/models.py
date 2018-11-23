@@ -36,3 +36,12 @@ class Poems(db.Model):
     linecount = db.Column(db.INT)
     lines = db.Column(db.TEXT, unique=True)
     title = db.Column(db.TEXT, unique=True)
+
+
+class PoetOfTheDay(db.Model):
+    __table_args__ = {"schema": "poetry"}
+    __tablename__ = 'poet_of_the_day'
+
+    id = db.Column(db.INT, primary_key=True)
+    author = db.Column(db.VARCHAR(255))
+    date = db.Column(db.VARCHAR(255), unique=True)
