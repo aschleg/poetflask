@@ -15,12 +15,12 @@
                     {% for poet in poet_list %}
                     <div class="col-md-12">
                         <div class="card flex-md-row mb-4" style="border: 0px;">
-                            <a href="{{ url_for("poet_page", poet=poet.name) }}">
-                                <img class="card-img-left" src="{{ poet.image_location }}"
+                            <a href="{{ url_for("poet", poet=poet.name) }}">
+                                <img class="card-img-left" src="{{ url_for('static', filename=poet.image_location) }}"
                                  style="max-height:350px; max-width: 350px; min-height: 300px; min-width: 300px;">
                             </a>
                             <div class="card-body d-flex flex-column" style="padding-top: 0px;">
-                                <a href="{{ url_for("poet_page", poet=poet.name) }}"
+                                <a href="{{ url_for("poet", poet=poet.name) }}"
                                    style="color: inherit;">
                                     <h1 class="card-title">{{ poet.name }}</h1>
                                 </a>
@@ -37,7 +37,7 @@
                         <ol class="list-unstyled mb-0">
                             {% for poet in poet_list %}
                                 <li>
-                                    <a href="{{ url_for("poet_page", poet=poet.name) }}">
+                                    <a href="{{ url_for("poet", poet=poet.name) }}">
                                         {{ poet.name }}
                                     </a>
                                 </li>

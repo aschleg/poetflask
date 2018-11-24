@@ -4,6 +4,7 @@ from app import app
 from app.models import Poet, Poems, PoetOfTheDay, db
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
+from sqlalchemy import func
 
 from random import randint
 
@@ -61,7 +62,7 @@ def index():
 
 
 @app.route('/poets/', methods=['GET', 'POST'])
-def poets_list():
+def poets():
     poet_list = Poet.query.order_by(Poet.last_name.asc()).all()
 
     title = 'Poets'
@@ -69,7 +70,7 @@ def poets_list():
 
 
 @app.route('/poets/<poet>/', methods=['GET', 'POST'])
-def poet_page(poet):
+def poet(poet):
     author_poems = Poems.query.filter_by(author=poet).all()
     poet_info = Poet.query.filter_by(name=poet).first()
 
@@ -78,10 +79,19 @@ def poet_page(poet):
 
 
 @app.route('/poetry/', methods=['GET', 'POST'])
-def poetry_page():
+def poetry():
     poet_list = Poet.query.order_by(Poet.last_name.asc()).all()
 
-    return render_template('poetry.html', poet_list=poet_list)
+    min_poet_birth = db.session.query(Poet.year_of_birth).\
+        order_by(Poet.year_of_birth).\
+        first()[0]
+
+    max_poet_birth = db.session.query(Poet.year_of_birth).\
+        order_by(Poet.year_of_birth.desc()).\
+        filter(Poet.year_of_birth != None).\
+        first()[0]
+
+    return render_template('poetry.html', poet_list=poet_list, min_poet_birth=min_poet_birth, max_poet_birth=max_poet_birth)
 
 
 @app.route('/about/')
@@ -89,8 +99,8 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/selected_poetry', methods=['POST'])
-def selected_poetry():
+@app.route('/poetry_search_criteria', methods=['POST'])
+def poetry_search_criteria():
     poet = request.json['poet']
 
     return jsonify({'poet': poet})
