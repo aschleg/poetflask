@@ -81,6 +81,7 @@ def poet(poet):
 @app.route('/poetry/', methods=['GET', 'POST'])
 def poetry():
     poet_list = Poet.query.order_by(Poet.last_name.asc()).all()
+    poem_list = db.session.query(Poems.title).all()
 
     min_poet_birth = db.session.query(Poet.year_of_birth).\
         order_by(Poet.year_of_birth).\
@@ -91,7 +92,8 @@ def poetry():
         filter(Poet.year_of_birth != None).\
         first()[0]
 
-    return render_template('poetry.html', poet_list=poet_list, min_poet_birth=min_poet_birth, max_poet_birth=max_poet_birth)
+    return render_template('poetry.html', poet_list=poet_list, poem_list=poem_list,
+                           min_poet_birth=min_poet_birth, max_poet_birth=max_poet_birth)
 
 
 @app.route('/about/')
@@ -99,8 +101,8 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/poetry_search_criteria', methods=['POST'])
-def poetry_search_criteria():
+@app.route('/poetry_search', methods=['POST'])
+def poetry_search():
     poet = request.json['poet']
 
     return jsonify({'poet': poet})

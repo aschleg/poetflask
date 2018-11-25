@@ -6,26 +6,40 @@
         <div class="row">
             <nav class="col-3 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
-                    <h5 class="sidebar-heading d-flex align-items-left px-3 mt-4 mb-1 text-muted">
+                    <h4 class="sidebar-heading d-flex align-items-left px-3 mt-4 mb-1 text-muted">
                         <span>Search Options</span>
-                    </h5>
+                    </h4>
                     <form action="{{ url_for('poetry') }}" id="poetrySearchCriteria" method=post>
                         <div class="form-group">
-                            <label for="poet_select">Poet</label>
+                            <label for="poet_select" class="pt-3">Poet</label>
                             <select class="form-control" id="poet_select" name="poet_select">
                                 <option disabled selected value> -- Poet Select -- </option>
                                 {% for poet in poet_list %}
                                     <option>{{ poet.name }}</option>
                                 {% endfor %}
                             </select>
-                            <label for="poet_gender">Poet Gender</label>
+                            <label for="poet_gender" class="pt-3">Poet Gender</label>
                             <select class="form-control" id="poet_gender" name="poet_gender">
                                 <option disabled selected value> -- Poet Gender -- </option>
                                 <option>Female</option>
                                 <option>Male</option>
                             </select>
-                            <button type="submit" class="btn btn-outline-primary" id="selectPoet">
-                                Select Poet
+                            <label for="poet_born_before" class="pt-3">Poet Born Before</label>
+                            <input type="range" class="custom-range" id="poet_born_before"
+                                   min="{{ min_poet_birth }}" max="{{ max_poet_birth }}">
+                            <label for="poet_born_after" class="pt-3">Poet Born After</label>
+                            <input type="range" class="custom-range" id="poet_born_after"
+                                   min="{{ min_poet_birth }}" max="{{ max_poet_birth }}">
+                            <label for="poem_name" class="pt-3">Poem Name</label>
+                            <select class="form-control" id="poem_name" name="poem_name">
+                                <option disabled selected value> -- Poem Name -- </option>
+                                {%  for poem in poem_list %}
+                                    <option>{{ poem.title }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="pt-3"></span>
+                            <button type="submit" class="btn btn-outline-primary" id="submitSearch">
+                                Search
                             </button>
                         </div>
                     </form>
@@ -36,6 +50,10 @@
                             pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="display-5">Results</h1>
                 </div>
+                <p class="lead">
+                    Filter your search using the options in the sidebar. Matching poems will be displayed after
+                    submitting a search request.
+                </p>
             </main>
         </div>
     </div>
@@ -46,9 +64,13 @@
 
     <script type="text/javascript">
 
-        function search_criteria(e) {
+        function search_poetry(e) {
             let data = {
-                poet: $('#poet_select').val()
+                poet: $('#poet_select').val(),
+                poet_gender: $('#poet_gender').val(),
+                poet_born_before: $('#poet_born_before').val(),
+                poet_born_after: $('#poet_born_after').val(),
+                poem: $('#poem_name').val()
             };
 
             $.ajax({
@@ -56,7 +78,7 @@
                 dataType: 'json',
                 type: 'POST',
                 data: JSON.stringify(data),
-                url: '{{ url_for('poetry_search_criteria') }}'
+                url: '{{ url_for('poetry_search') }}'
             })
             .done(function(data) {
 
@@ -65,7 +87,7 @@
             e.preventDefault();
         }
 
-        $('#poetrySearchCriteria').on('submit', search_criteria)
+        $('#submitSearch').on('submit', search_poetry)
 
     </script>
 
