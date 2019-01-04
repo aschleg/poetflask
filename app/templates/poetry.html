@@ -9,7 +9,8 @@
                     <h4 class="sidebar-heading d-flex align-items-left px-3 mt-4 mb-1 text-muted">
                         <span>Search Options</span>
                     </h4>
-                    <form action="{{ url_for('poetry') }}" id="poetrySearchCriteria" method=post>
+
+                    <form id="poetrySearchCriteria" method="post">
                         <div class="form-group">
                             <label for="poet_select" class="pt-3">Poet</label>
                             <select class="form-control" id="poet_select" name="poet_select">
@@ -24,12 +25,31 @@
                                 <option>Female</option>
                                 <option>Male</option>
                             </select>
-                            <label for="poet_born_before" class="pt-3">Poet Born Before</label>
-                            <input type="range" class="custom-range" id="poet_born_before"
+
+                            <div class="form-inline pt-3">
+                                <label for="poet_born_before" class="pr-3">Poet Born Before</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2" id="poet_born_before_text">
+                            </div>
+
+                            <div class="form-inline pt-3">
+                                <label class="col-sm-2 col-form-label">{{ min_poet_birth }}</label>
+                                <input type="range" class="custom-range" style="width: 50%;" id="poet_born_before"
                                    min="{{ min_poet_birth }}" max="{{ max_poet_birth }}">
-                            <label for="poet_born_after" class="pt-3">Poet Born After</label>
-                            <input type="range" class="custom-range" id="poet_born_after"
-                                   min="{{ min_poet_birth }}" max="{{ max_poet_birth }}">
+                                <label class="col-sm-2 col-form-label">{{ max_poet_birth }}</label>
+                            </div>
+
+                            <div class="form-inline pt-3">
+                                <label for="poet_born_after" class="pr-3">Poet Born After</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2" id="poet_born_after_text">
+                            </div>
+
+                            <div class="form-inline pt-3">
+                                <label class="col-sm-2 col-form-label">{{ min_poet_birth }}</label>
+                                <input type="range" class="custom-range" style="width: 50%;" id="poet_born_after"
+                                       min="{{ min_poet_birth }}" max="{{ max_poet_birth }}">
+                                <label class="col-sm-2 col-form-label">{{ max_poet_birth }}</label>
+                            </div>
+
                             <label for="poem_name" class="pt-3">Poem Name</label>
                             <select class="form-control" id="poem_name" name="poem_name">
                                 <option disabled selected value> -- Poem Name -- </option>
@@ -37,10 +57,11 @@
                                     <option>{{ poem.title }}</option>
                                 {% endfor %}
                             </select>
-                            <span class="pt-3"></span>
-                            <button type="submit" class="btn btn-outline-primary" id="submitSearch">
-                                Search
-                            </button>
+                            <div class="pb-3 pt-3">
+                                <button type="submit" class="btn btn-outline-primary" id="submitSearch">
+                                    Search
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -50,7 +71,7 @@
                             pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="display-5">Results</h1>
                 </div>
-                <p class="lead">
+                <p class="lead" id="poetrySearchLead">
                     Filter your search using the options in the sidebar. Matching poems will be displayed after
                     submitting a search request.
                 </p>
@@ -64,30 +85,36 @@
 
     <script type="text/javascript">
 
-        function search_poetry(e) {
-            let data = {
-                poet: $('#poet_select').val(),
-                poet_gender: $('#poet_gender').val(),
-                poet_born_before: $('#poet_born_before').val(),
-                poet_born_after: $('#poet_born_after').val(),
-                poem: $('#poem_name').val()
-            };
+        $(function() {
+            if ($('#poet_born_before_text').val() === "") {
+                $('#poet_born_before_text').val($('#poet_born_before').val());
+            }
+            else {
+                $('#poet_born_before').val($('#poet_born_before_text').val());
+            }
+        });
 
-            $.ajax({
-                contentType: 'application/json',
-                dataType: 'json',
-                type: 'POST',
-                data: JSON.stringify(data),
-                url: '{{ url_for('poetry_search') }}'
-            })
-            .done(function(data) {
 
+        function search_poetry() {
+            $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+            $(function() {
+                $.getJSON($SCRIPT_ROOT + '/poetry_search', {
+                    poet: $('#poet_select').val(),
+                    poet_gender: $('#poet_gender').val(),
+                    poet_born_before: $('#poet_born_before').val(),
+                    poet_born_after: $('#poet_born_after').val(),
+                    poem: $('#poem_name').val()
+                },
+                function (data) {
+                    let intro_text = document.getElementById('poetrySearchLead');
+                    intro_text.style.display = 'none';
+                });
+                return false;
             });
-
-            e.preventDefault();
         }
 
-        $('#submitSearch').on('submit', search_poetry)
+        $(document).on('click', '#submitSearch', search_poetry)
 
     </script>
 

@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, SelectField
+from wtforms import SubmitField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from sqlalchemy.orm import load_only
-from wtforms.validators import DataRequired
 from app.models import Poet, Poems
 
 

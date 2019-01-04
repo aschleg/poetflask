@@ -3,12 +3,14 @@ from flask import jsonify, render_template, request
 from app import app
 from app.models import Poet, Poems, PoetOfTheDay, db
 from apscheduler.schedulers.background import BackgroundScheduler
+from sqlalchemy import and_
 import datetime
-from sqlalchemy import func
 
 from random import randint
 
 db.create_all()
+# manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+# manager.create_api(Poet, methods=['GET'])
 
 
 def update_poet_of_the_day_table_job():
@@ -101,11 +103,47 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/poetry_search', methods=['POST'])
+@app.route('/poetry_search', methods=['GET'])
 def poetry_search():
-    poet = request.json['poet']
+    poet = request.args.get('poet')
+    poet_gender = request.args.get('poet_gender')
+    poet_born_before = request.args.get('poet_born_before')
+    poet_born_after = request.args.get('poet_born_after')
+    poem = request.args.get('poem')
 
-    return jsonify({'poet': poet})
+    if poem not in (None, ''):
+        search_result = db.session.query(Poems.title, Poems.lines).\
+            filter(Poems.title == poem)
+
+    else:
+        search_result = db.session.query(Poems.title, Poet.name, Poet.gender, Poet.year_of_birth, Poems.lines).\
+            outerjoin(Poet, Poems.author == Poet.name)
+
+        if poet not in (None, ''):
+            search_result = search_result.filter_by(name=poet)
+
+        if poet_gender not in (None, ''):
+            search_result = search_result.filter_by(gender=poet_gender)
+
+        # if poet_born_before not in (None, '') and poet_born_after not in (None, ''):
+        #
+        #     if int(poet_born_after) < int(poet_born_before):
+        #         raise ValueError('Poet Born After Year must be greater than Poet Born before')
+        #
+        #     search_result = db.session.query(search_result.title, search_result.lines). \
+        #         filter(
+        #         and_(search_result.year_of_birth <= poet_born_before,
+        #              search_result.year_of_birth >= poet_born_after))
+        #
+        # elif poet_born_before not in (None, '') and poet_born_after in (None, ''):
+        #     search_result = db.session.query(search_result.title, search_result.lines). \
+        #         filter(joined_tables.year_of_birth <= poet_born_before)
+        #
+        # else:
+        #     search_result = db.session.query(search_result.title, search_result.lines). \
+        #         filter(joined_tables.year_of_birth <= poet_born_after)
+
+    return jsonify(search_result.all())
 
 
 @app.template_filter()
