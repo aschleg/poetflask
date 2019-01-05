@@ -117,31 +117,16 @@ def poetry_search():
 
     else:
         search_result = db.session.query(Poems.title, Poet.name, Poet.gender, Poet.year_of_birth, Poems.lines).\
-            outerjoin(Poet, Poems.author == Poet.name)
+            outerjoin(Poet, Poems.author == Poet.name).\
+            filter(
+                and_(Poet.year_of_birth <= poet_born_before,
+                     Poet.year_of_birth >= poet_born_after))
 
         if poet not in (None, ''):
             search_result = search_result.filter_by(name=poet)
 
         if poet_gender not in (None, ''):
             search_result = search_result.filter_by(gender=poet_gender)
-
-        # if poet_born_before not in (None, '') and poet_born_after not in (None, ''):
-        #
-        #     if int(poet_born_after) < int(poet_born_before):
-        #         raise ValueError('Poet Born After Year must be greater than Poet Born before')
-        #
-        #     search_result = db.session.query(search_result.title, search_result.lines). \
-        #         filter(
-        #         and_(search_result.year_of_birth <= poet_born_before,
-        #              search_result.year_of_birth >= poet_born_after))
-        #
-        # elif poet_born_before not in (None, '') and poet_born_after in (None, ''):
-        #     search_result = db.session.query(search_result.title, search_result.lines). \
-        #         filter(joined_tables.year_of_birth <= poet_born_before)
-        #
-        # else:
-        #     search_result = db.session.query(search_result.title, search_result.lines). \
-        #         filter(joined_tables.year_of_birth <= poet_born_after)
 
     return jsonify(search_result.all())
 

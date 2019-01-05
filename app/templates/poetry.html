@@ -27,27 +27,41 @@
                             </select>
 
                             <div class="form-inline pt-3">
-                                <label for="poet_born_before" class="pr-3">Poet Born Before</label>
-                                <input type="text" class="form-control mb-2 mr-sm-2" id="poet_born_before_text">
+                                <input class="form-check-input pr-3" type="checkbox" id="poet_born_before_checkbox"
+                                       value="poet_born_before_option">
+                                <label for="poet_born_before" class="pr-3"
+                                       id="poet_born_before_label">Poet Born Before</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2" id="poet_born_before_text" disabled>
                             </div>
 
                             <div class="form-inline pt-3">
-                                <label class="col-sm-2 col-form-label">{{ min_poet_birth }}</label>
+                                <label class="col-sm-2 col-form-label" id="poet_born_before_min_birth">
+                                    {{ min_poet_birth }}
+                                </label>
                                 <input type="range" class="custom-range" style="width: 50%;" id="poet_born_before"
-                                   min="{{ min_poet_birth }}" max="{{ max_poet_birth }}">
-                                <label class="col-sm-2 col-form-label">{{ max_poet_birth }}</label>
+                                   min="{{ min_poet_birth }}" max="{{ max_poet_birth }}" disabled>
+                                <label class="col-sm-2 col-form-label" id="poet_born_before_max_birth">
+                                    {{ max_poet_birth }}
+                                </label>
                             </div>
 
                             <div class="form-inline pt-3">
-                                <label for="poet_born_after" class="pr-3">Poet Born After</label>
-                                <input type="text" class="form-control mb-2 mr-sm-2" id="poet_born_after_text">
+                                <input class="form-check-input" type="checkbox" id="poet_born_after_checkbox"
+                                       value="poet_born_after_option">
+                                <label for="poet_born_after" class="pr-3"
+                                       id="poet_born_after_label">Poet Born After</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2" id="poet_born_after_text" disabled>
                             </div>
 
                             <div class="form-inline pt-3">
-                                <label class="col-sm-2 col-form-label">{{ min_poet_birth }}</label>
+                                <label class="col-sm-2 col-form-label" id="poet_born_after_min_birth">
+                                    {{ min_poet_birth }}
+                                </label>
                                 <input type="range" class="custom-range" style="width: 50%;" id="poet_born_after"
-                                       min="{{ min_poet_birth }}" max="{{ max_poet_birth }}">
-                                <label class="col-sm-2 col-form-label">{{ max_poet_birth }}</label>
+                                       min="{{ min_poet_birth }}" max="{{ max_poet_birth }}" disabled>
+                                <label class="col-sm-2 col-form-label" id="poet_born_after_max_birth">
+                                    {{ max_poet_birth }}
+                                </label>
                             </div>
 
                             <label for="poem_name" class="pt-3">Poem Name</label>
@@ -85,30 +99,117 @@
 
     <script type="text/javascript">
 
-        $(function() {
-            if ($('#poet_born_before_text').val() === "") {
-                $('#poet_born_before_text').val($('#poet_born_before').val());
+        $(document).ready(function() {
+
+            if ($('#poet_born_before_checkbox').is(':checked') === false) {
+                $('#poet_born_before_label').addClass('text-secondary');
+                $('#poet_born_before_min_birth').addClass('text-secondary');
+                $('#poet_born_before_max_birth').addClass('text-secondary')
             }
             else {
-                $('#poet_born_before').val($('#poet_born_before_text').val());
+                $('#poet_born_before_label').removeClass('text-secondary');
+                $('#poet_born_before_min_birth').removeClass('text-secondary');
+                $('#poet_born_before_max_birth').removeClass('text-secondary')
+            }
+
+            if ($('#poet_born_after_checkbox').is(':checked') === false) {
+                $('#poet_born_after_label').addClass('text-secondary');
+                $('#poet_born_after_min_birth').addClass('text-secondary');
+                $('#poet_born_after_max_birth').addClass('text-secondary')
+            }
+            else {
+                $('#poet_born_after_label').removeClass('text-secondary');
+                $('#poet_born_after_min_birth').removeClass('text-secondary');
+                $('#poet_born_after_max_birth').removeClass('text-secondary')
+            }
+
+        });
+
+        $('#poet_born_before_checkbox').click(function() {
+
+            if ($('#poet_born_before_checkbox').is(':checked') === false) {
+
+                $('#poet_born_before_label').addClass('text-secondary');
+                $('#poet_born_before').prop('disabled', true);
+                $('#poet_born_before_text').prop('disabled', true)
+            }
+
+            else {
+                $('#poet_born_before_label').removeClass('text-secondary');
+                $('#poet_born_before').prop('disabled', false);
+                $('#poet_born_before_text').prop('disabled', false)
             }
         });
 
+        $('#poet_born_after_checkbox').click(function() {
+
+            if ($('#poet_born_after_checkbox').is(':checked') === false) {
+
+                $('#poet_born_after_label').addClass('text-secondary');
+                $('#poet_born_after').prop('disabled', true);
+                $('#poet_born_after_text').prop('disabled', true)
+            }
+
+            else {
+                $('#poet_born_after_label').removeClass('text-secondary');
+                $('#poet_born_after').prop('disabled', false);
+                $('#poet_born_after_text').prop('disabled', false)
+            }
+        });
+
+        $('#poet_born_before').on('input', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('#poet_born_before_text').val($('#poet_born_before').val())
+        });
+
+        $('#poet_born_after').on('input', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('#poet_born_after_text').val($('#poet_born_after').val())
+        });
+
+        $('#poet_born_before_text').on('input', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('#poet_born_before').val($('#poet_born_before_text').val())
+        });
+
+        $('#poet_born_after_text').on('input', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('#poet_born_after').val($('#poet_born_after_text').val())
+        });
 
         function search_poetry() {
             $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
             $(function() {
+
+                let poet_born_b = "1895";
+                let poet_born_a = "1343";
+
+                if ($('#poet_born_before_checkbox').is(':checked') === true) {
+                    poet_born_b = $('#poet_born_before').val()
+                }
+
+                if ($('#poet_born_after_checkbox').is(':checked') === true) {
+                    poet_born_a = $('#poet_born_after').val()
+                }
+
                 $.getJSON($SCRIPT_ROOT + '/poetry_search', {
                     poet: $('#poet_select').val(),
                     poet_gender: $('#poet_gender').val(),
-                    poet_born_before: $('#poet_born_before').val(),
-                    poet_born_after: $('#poet_born_after').val(),
+                    poet_born_before: poet_born_b,
+                    poet_born_after: poet_born_a,
                     poem: $('#poem_name').val()
                 },
                 function (data) {
+
                     let intro_text = document.getElementById('poetrySearchLead');
                     intro_text.style.display = 'none';
+
+
                 });
                 return false;
             });
