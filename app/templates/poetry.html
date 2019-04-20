@@ -89,6 +89,9 @@
                     Filter your search using the options in the sidebar. Matching poems will be displayed after
                     submitting a search request.
                 </p>
+                <div class="poetrySearchResults">
+                    <p class="poetryResults"></p>
+                </div>
             </main>
         </div>
     </div>
@@ -184,10 +187,10 @@
         function search_poetry() {
             $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
-            $(function() {
 
-                let poet_born_b = "1895";
+            $(function() {
                 let poet_born_a = "1343";
+                let poet_born_b = "1895";
 
                 if ($('#poet_born_before_checkbox').is(':checked') === true) {
                     poet_born_b = $('#poet_born_before').val()
@@ -196,7 +199,6 @@
                 if ($('#poet_born_after_checkbox').is(':checked') === true) {
                     poet_born_a = $('#poet_born_after').val()
                 }
-
                 $.getJSON($SCRIPT_ROOT + '/poetry_search', {
                     poet: $('#poet_select').val(),
                     poet_gender: $('#poet_gender').val(),
@@ -208,7 +210,6 @@
 
                     let intro_text = document.getElementById('poetrySearchLead');
                     intro_text.style.display = 'none';
-
 
                 });
                 return false;

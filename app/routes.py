@@ -9,8 +9,6 @@ import datetime
 from random import randint
 
 db.create_all()
-# manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
-# manager.create_api(Poet, methods=['GET'])
 
 
 def update_poet_of_the_day_table_job():
@@ -128,7 +126,18 @@ def poetry_search():
         if poet_gender not in (None, ''):
             search_result = search_result.filter_by(gender=poet_gender)
 
-    return jsonify(search_result.all())
+    results = search_result
+
+    result_dict = {}
+
+    r = 0
+    for result in results:
+        result_dict['result' + str(r)] = [result[1], result[4]]
+        r += 1
+
+    print(result_dict)
+
+    return jsonify(result_dict)
 
 
 @app.template_filter()
