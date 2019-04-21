@@ -1,7 +1,7 @@
 from flask import jsonify, render_template, request
 
-from app import app
-from app.models import Poet, Poems, PoetOfTheDay, db
+from app import app, db
+from app.models import Poet, Poems, PoetOfTheDay
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import and_
 import datetime
